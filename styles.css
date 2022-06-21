@@ -63,6 +63,10 @@ header img {
 header h2 {
   font-size: 1.75rem;
   letter-spacing: 8px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 /* Start Section */
@@ -92,6 +96,10 @@ header h2 {
 .start-section .title h1 {
   font-size: 3rem;
   letter-spacing: 8px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .start-section .title-btns {
