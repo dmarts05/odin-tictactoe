@@ -101,14 +101,3 @@ header h2 {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
-
-.start-section .title-btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-}
-
-.start-section .title-btns button {
-  width: 130px;
-}
