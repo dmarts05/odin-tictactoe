@@ -35,14 +35,25 @@ button:hover {
   background-color: var(--base-color-1);
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Header */
 
 header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
   border-bottom: 3px solid var(--base-color-2);
+}
+
+header a {
+  color: var(--contrast);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
 }
 
 header img {
