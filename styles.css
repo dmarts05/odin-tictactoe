@@ -38,6 +38,14 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+p {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .start-section,
 .game-section {
   width: 100%;
@@ -69,9 +77,6 @@ header h2 {
   font-size: 1.75rem;
   letter-spacing: 8px;
   user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
 /* Start Section */
@@ -100,9 +105,6 @@ header h2 {
   font-size: 3rem;
   letter-spacing: 8px;
   user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
 /* Game Section */
@@ -124,6 +126,11 @@ header h2 {
   cursor: pointer;
   border: 5px solid var(--contrast);
   border-radius: 10px;
+  transition: transform 0.25s;
+}
+
+.game-section .gameboard .cell:hover {
+  transform: scale(1.05);
 }
 
 .game-section .score-wrapper {
