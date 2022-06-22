@@ -120,7 +120,7 @@ header h2 {
   gap: 8px;
 }
 
-.game-section .gameboard > div {
+.game-section .gameboard .cell {
   cursor: pointer;
   border: 5px solid var(--contrast);
   border-radius: 10px;
