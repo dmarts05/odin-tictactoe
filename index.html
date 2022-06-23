@@ -30,6 +30,7 @@
         <h2>TIC TAC TOE</h2>
       </a>
     </header>
+
     <main>
       <section class="start-section" style="display: none;">
         <div class="title">
@@ -38,6 +39,48 @@
         </div>
           <button id="start-game">START</button>
       </section>
+
+      <div class="modal-wrapper">
+        <form class="game-options-form">
+          <h2>Game Options</h2>
+          <p>
+            <label for="player-1-name">Player 1</label>
+            <input type="text" name="player-1-name" id="player-1-name" placeholder="Name">
+          </p>
+          <p>
+            <label for="player-2-name">Player 2</label>
+            <input type="text" name="player-2-name" id="player-2-name" placeholder="Name">
+          </p>
+          <fieldset>
+            <legend>Gamemode</legend>
+            <p>
+              <input type="radio" name="gamemode" id="ai" value="ai" checked>
+              <label for="ai">AI</label>
+            </p>
+            <p>
+              <input type="radio" name="gamemode" id="pvp" value="pvp">
+              <label for="normal">PVP</label>
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Difficulty</legend>
+            <p>
+              <input type="radio" name="difficulty" id="easy" value="easy" checked>
+              <label for="easy">Easy</label>
+            </p>
+            <p>
+              <input type="radio" name="difficulty" id="normal" value="normal">
+              <label for="normal">Normal</label>
+            </p>
+            <p>
+              <input type="radio" name="difficulty" id="hard" value="hard">
+              <label for="hard">Hard</label>
+            </p>
+          </fieldset>
+
+        </form>
+      </div>
+
       <section class="game-section">
         <div class="score-wrapper">
           <h2>PLAYER 1</h2>

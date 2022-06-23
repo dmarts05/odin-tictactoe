@@ -46,6 +46,10 @@ p {
   -ms-user-select: none;
 }
 
+main {
+  position: relative;
+}
+
 .start-section,
 .game-section {
   width: 100%;
@@ -108,6 +112,7 @@ header h2 {
 }
 
 /* Game Section */
+
 .game-section {
   display: flex;
   justify-content: space-evenly;
@@ -162,4 +167,41 @@ header h2 {
 .game-section .score-wrapper p {
   font-size: 5rem;
   font-size: clamp(4rem, 6vw, 6rem);
+}
+
+/* Modals */
+
+.modal-wrapper {
+  /* pointer-events: none;
+  opacity: 0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: opacity 0.1s;
+}
+
+.modal-wrapper .game-options-form {
+  padding: 16px;
+  border-radius: 10px;
+  background-color: var(--base-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.modal-wrapper .game-options-form p:not(fieldset p) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
 }
