@@ -190,9 +190,23 @@ header h2 {
   transition: opacity 0.1s;
 }
 
-/* Game Options Modal */
+.modal-wrapper.show {
+  pointer-events: auto;
+  opacity: 1;
+}
 
-.modal-wrapper .game-options-form {
+.modal-wrapper h2 {
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+.modal-wrapper p,
+.modal-wrapper legend {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.modal-wrapper .game-options-modal, .modal-wrapper .end-game-modal {
   padding: 32px;
   border: 5px solid var(--contrast);
   border-radius: 10px;
@@ -203,30 +217,21 @@ header h2 {
   gap: 16px;
 }
 
-.game-options-form h2 {
-  text-align: center;
-  font-size: 1.75rem;
-}
+/* Game Options Modal */
 
-.game-options-form p,
-.game-options-form legend {
-  font-size: 1.25rem;
-  text-transform: uppercase;
-}
-
-.game-options-form p:not(fieldset p) {
+.game-options-modal p:not(fieldset p) {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 8px;
 }
 
-.game-options-form label {
+.game-options-modal label {
   width: fit-content;
   font-weight: 500;
 }
 
-.game-options-form input[type='text'] {
+.game-options-modal input[type='text'] {
   font-size: 1rem;
   padding: 6px;
   border: 3px solid var(--contrast);
@@ -235,30 +240,30 @@ header h2 {
   transition: color 0.25s, background-color 0.25s;
 }
 
-.game-options-form input[type='text']:focus {
+.game-options-modal input[type='text']:focus {
   color: var(--base-color);
   background-color: var(--contrast);
 }
 
-.game-options-form fieldset {
+.game-options-modal fieldset {
   border: none;
   display: flex;
   gap: 16px;
 }
 
-.game-options-form legend {
+.game-options-modal legend {
   margin-bottom: 8px;
   font-weight: 500;
 }
 
-.game-options-form fieldset p {
+.game-options-modal fieldset p {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
 }
 
-.game-options-form input[type='radio'] {
+.game-options-modal input[type='radio'] {
   position: relative;
   appearance: none;
   background-color: var(--base-color);
@@ -272,7 +277,7 @@ header h2 {
   transform: translateY(-0.075em);
 }
 
-input[type='radio']::before {
+.game-options-modal input[type='radio']::before {
   position: absolute;
   content: '';
   top: -0.5px;
@@ -285,6 +290,25 @@ input[type='radio']::before {
   background-color: var(--contrast);
 }
 
-input[type='radio']:checked::before {
+.game-options-modal input[type='radio']:checked::before {
   transform: scale(1);
+}
+
+/* End Game Modal */
+
+.end-game-modal {
+  justify-content: center;
+  align-items: center;
+}
+
+.end-game-modal h2 {
+  font-size: 2rem;
+  max-width: 16ch;
+}
+
+.end-game-modal > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
 }

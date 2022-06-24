@@ -40,8 +40,8 @@
           <button id="start-game">START</button>
       </section>
 
-      <div class="modal-wrapper">
-        <form class="game-options-form">
+      <div class="modal-wrapper" id="game-options">
+        <form class="game-options-modal">
           <h2>GAME OPTIONS</h2>
           <p>
             <label for="player-1-name">Player 1</label>
@@ -78,7 +78,7 @@
             </p>
           </fieldset>
 
-          <button type="button">GO!</button>
+          <button type="button" id="go-btn">GO!</button>
         </form>
       </div>
 
@@ -103,6 +103,16 @@
           <p class="score">0</p>
         </div>
       </section>
+
+      <div class="modal-wrapper" id="end-game">
+        <div class="end-game-modal">
+          <h2>PLAYER X WINS!</h2>
+          <div>
+            <button id="home-btn">HOME</button>
+            <button id="reset-btn">RESET</button>
+          </div>    
+        </div>
+      </div>
     </body>
     </main>
 </html>
