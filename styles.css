@@ -40,7 +40,8 @@ a {
 
 h1,
 h2,
-p {
+p,
+legend {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -190,7 +191,8 @@ header h2 {
 }
 
 .modal-wrapper .game-options-form {
-  padding: 16px;
+  padding: 32px;
+  border: 5px solid var(--contrast);
   border-radius: 10px;
   background-color: var(--base-color);
   display: flex;
@@ -199,9 +201,88 @@ header h2 {
   gap: 16px;
 }
 
-.modal-wrapper .game-options-form p:not(fieldset p) {
+.game-options-form h2 {
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+.game-options-form p,
+.game-options-form legend {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.game-options-form p:not(fieldset p) {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.game-options-form label {
+  width: fit-content;
+  font-weight: 500;
+}
+
+.game-options-form input[type='text'] {
+  font-size: 1rem;
+  padding: 6px;
+  border: 3px solid var(--contrast);
+  border-radius: 10px;
+  outline: none;
+  transition: color 0.25s, background-color 0.25s;
+}
+
+.game-options-form input[type='text']:focus {
+  color: var(--base-color);
+  background-color: var(--contrast);
+}
+
+.game-options-form fieldset {
+  border: none;
+  display: flex;
+  gap: 16px;
+}
+
+.game-options-form legend {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.game-options-form fieldset p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-options-form input[type='radio'] {
+  position: relative;
+  appearance: none;
+  background-color: var(--base-color);
+  margin: 0;
+  font: inherit;
+  color: var(--contrast);
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid var(--contrast);
+  border-radius: 50%;
+  transform: translateY(-0.075em);
+}
+
+input[type='radio']::before {
+  position: absolute;
+  content: '';
+  top: -0.5px;
+  left: -0.5px;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.25s;
+  background-color: var(--contrast);
+}
+
+input[type='radio']:checked::before {
+  transform: scale(1);
 }
