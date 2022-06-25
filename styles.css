@@ -187,7 +187,7 @@ header h2 {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.3);
-  transition: opacity 0.1s;
+  transition: opacity 0.25s;
 }
 
 .modal-wrapper.show {
