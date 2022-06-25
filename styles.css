@@ -297,7 +297,7 @@ header h2 {
 
 :disabled,
 input:disabled + label {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 /* End Game Modal */
