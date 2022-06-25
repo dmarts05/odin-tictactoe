@@ -11,20 +11,44 @@ const displayController = (() => {
   const gameOptionsModal = document.getElementById('game-options');
   const endGameModal = document.getElementById('end-game');
 
-  const toggleModal = (modal) =>
-    modal.classList.toggle('show');
+  const toggleModal = (modal) => modal.classList.toggle('show');
 
   const hideModals = () => {
     gameOptionsModal.classList.remove('show');
     endGameModal.classList.remove('show');
   };
 
-  showGameOptionsBtn.addEventListener('click', () => toggleModal(gameOptionsModal));
+  showGameOptionsBtn.addEventListener('click', () =>
+    toggleModal(gameOptionsModal)
+  );
 
   // Hide modals by clicking outside of them
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-wrapper')) {
       hideModals();
     }
+  });
+
+  return { toggleModal, hideModals };
+})();
+
+const gameOptionsForm = (() => {
+  const secondPlayerName = document.getElementById('player-2-name');
+  const gameModeRadioBtns = document.querySelectorAll(
+    'input[type="radio"][name="gamemode"]'
+  );
+  const difficultyFieldset = document.getElementById('difficulty');
+
+  // Disables form fields depending on selected gamemode
+  gameModeRadioBtns.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'pvp') {
+        difficultyFieldset.disabled = true;
+        secondPlayerName.disabled = false;
+      } else {
+        difficultyFieldset.disabled = false;
+        secondPlayerName.disabled = true;
+      }
+    });
   });
 })();

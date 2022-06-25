@@ -206,7 +206,8 @@ header h2 {
   text-transform: uppercase;
 }
 
-.modal-wrapper .game-options-modal, .modal-wrapper .end-game-modal {
+.modal-wrapper .game-options-modal,
+.modal-wrapper .end-game-modal {
   padding: 32px;
   border: 5px solid var(--contrast);
   border-radius: 10px;
@@ -221,7 +222,7 @@ header h2 {
 
 .game-options-modal p:not(fieldset p) {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   gap: 8px;
 }
@@ -292,6 +293,11 @@ header h2 {
 
 .game-options-modal input[type='radio']:checked::before {
   transform: scale(1);
+}
+
+:disabled,
+input:disabled + label {
+  opacity: 0.7;
 }
 
 /* End Game Modal */
