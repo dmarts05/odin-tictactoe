@@ -33,22 +33,47 @@ const displayController = (() => {
 })();
 
 const gameOptionsForm = (() => {
+  const firstPlayerName = document.getElementById('player-1-name');
   const secondPlayerName = document.getElementById('player-2-name');
+
   const gameModeRadioBtns = document.querySelectorAll(
     'input[type="radio"][name="gamemode"]'
   );
+  const difficultyRadioBtns = document.querySelectorAll(
+    'input[type="radio"][name="difficulty"]'
+  );
+
   const difficultyFieldset = document.getElementById('difficulty');
 
-  // Disables form fields depending on selected gamemode
+  // Disables form fields depending on selected game mode
   gameModeRadioBtns.forEach((radio) => {
     radio.addEventListener('change', (e) => {
       if (e.target.value === 'pvp') {
         difficultyFieldset.disabled = true;
+        secondPlayerName.value = '';
         secondPlayerName.disabled = false;
       } else {
         difficultyFieldset.disabled = false;
+        secondPlayerName.value = 'AI';
         secondPlayerName.disabled = true;
       }
     });
   });
+
+  const getFirstPlayerName = () => firstPlayerName.value;
+  const getSecondPlayerName = () => secondPlayerName.value;
+  const getGameMode = () =>
+    Array.from(gameModeRadioBtns).find((radioBtn) => radioBtn.checked === true)
+      .value;
+  const getDifficulty = () =>
+    Array.from(difficultyRadioBtns).find(
+      (radioBtn) => radioBtn.checked === true
+    ).value;
+
+  return {
+    getFirstPlayerName,
+    getSecondPlayerName,
+    getGameMode,
+    getDifficulty,
+  };
 })();
