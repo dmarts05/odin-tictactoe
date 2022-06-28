@@ -12,8 +12,6 @@ const gameboard = (() => {
   let secondPlayer;
   let firstPlayerTurn = true;
 
-  const getFirstPlayerTurn = () => firstPlayerTurn;
-
   const checkWinPattern = (piece) => {
     const winPatterns = {
       pattern1: [`${piece}`, `${piece}`, `${piece}`, '', '', '', '', '', ''],
@@ -69,7 +67,7 @@ const gameboard = (() => {
           : secondPlayer.getName();
         displayController.showEndGameModal(winner);
       } else if (isTie()) {
-        displayController.showEndGameModal();
+        displayController.showEndGameModal('tie');
       } else {
         firstPlayerTurn = !firstPlayerTurn;
         updatePlayerTurn();
@@ -100,7 +98,7 @@ const gameboard = (() => {
     updatePlayerTurn();
   };
 
-  return { getFirstPlayerTurn, startGameboard, resetGameboard };
+  return { startGameboard, resetGameboard };
 })();
 
 const gameOptionsForm = (() => {
@@ -176,14 +174,13 @@ const displayController = (() => {
 
   const showGameOptionsModal = () => gameOptionsModal.classList.add('show');
 
-  const showEndGameModal = (player) => {
-    player = player || 'tie';
-    const result = document.querySelector('.end-game-modal h2');
+  const showEndGameModal = (result) => {
+    const resultModal = document.querySelector('.end-game-modal h2');
 
-    if (player === 'tie') {
-      result.textContent = "IT'S A TIE";
+    if (result === 'tie') {
+      resultModal.textContent = "IT'S A TIE";
     } else {
-      result.textContent = `${player} WINS!`;
+      resultModal.textContent = `${result} WINS!`;
     }
 
     endGameModal.classList.add('show');
