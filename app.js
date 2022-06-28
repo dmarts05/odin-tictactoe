@@ -7,13 +7,84 @@ const Player = (name) => {
 };
 
 const gameboard = (() => {
-  let player1;
-  let player2;
+  const cells = document.querySelectorAll('.cell');
+  const playerTurn = document.getElementById('player-turn');
+
+  const gameboardArr = ['', '', '', '', '', '', '', '', ''];
+  let firstPlayer;
+  let secondPlayer;
+  let firstPlayerTurn = true;
+
+  const checkWinPattern = (piece) => {
+    const winPatterns = {
+      pattern1: [`${piece}`, `${piece}`, `${piece}`, '', '', '', '', '', ''],
+      pattern2: ['', '', '', `${piece}`, `${piece}`, `${piece}`, '', '', ''],
+      pattern3: ['', '', '', '', '', '', `${piece}`, `${piece}`, `${piece}`],
+      pattern4: [`${piece}`, '', '', `${piece}`, '', '', `${piece}`, '', ''],
+      pattern5: ['', `${piece}`, '', '', `${piece}`, '', '', `${piece}`, ''],
+      pattern6: ['', '', `${piece}`, '', '', `${piece}`, '', '', `${piece}`],
+      pattern7: [`${piece}`, '', '', '', `${piece}`, '', '', '', `${piece}`],
+      pattern8: ['', '', `${piece}`, '', `${piece}`, '', `${piece}`, '', ''],
+    };
+
+    let checkCounter = 0;
+    for (pattern in winPatterns) {
+      for (let index = 0; index < gameboardArr.length; index++) {
+        if (gameboardArr[index] === '') {
+          continue;
+        } else {
+          if (winPatterns[pattern][index] === gameboardArr[index]) {
+            checkCounter++;
+          }
+        }
+      }
+
+      if (checkCounter === 3) {
+        return true;
+      } else {
+        checkCounter = 0;
+      }
+    }
+
+    return false;
+  };
+
+  const updatePlayerTurn = () =>
+    (playerTurn.textContent = firstPlayerTurn
+      ? `It's ${firstPlayer.getName()} turn!`
+      : `It's ${secondPlayer.getName()} turn!`);
+
+  const playRound = (e) => {
+    const piece = firstPlayerTurn ? 'O' : 'X';
+    const cell = e.target;
+
+    if (cell.textContent === '') {
+      cell.textContent = piece;
+      gameboardArr[cell.dataset.index] = piece;
+      firstPlayerTurn = !firstPlayerTurn;
+      if (checkWinPattern(piece)) {
+        displayController.toggleModal(document.getElementById('end-game'));
+      } else {
+        updatePlayerTurn();
+      }
+    }
+  };
 
   const startGameBoard = () => {
-    player1 = Player(gameOptionsForm.getFirstPlayerName);
-    player2 = Player(gameOptionsForm.getSecondPlayerName);
+    firstPlayer = Player(gameOptionsForm.getFirstPlayerName());
+    secondPlayer = Player(gameOptionsForm.getSecondPlayerName());
+
+    let cellIndex = 0;
+    cells.forEach((cell) => {
+      // Set data link between cells and gameboardArr
+      cell.dataset.index = cellIndex;
+      cellIndex++;
+
+      cell.addEventListener('click', playRound);
+    });
   };
+
+  return { gameboardArr, startGameBoard };
 })();
 
 const gameOptionsForm = (() => {
@@ -46,8 +117,10 @@ const gameOptionsForm = (() => {
     });
   });
 
-  const getFirstPlayerName = () => firstPlayerName.value;
-  const getSecondPlayerName = () => secondPlayerName.value;
+  const getFirstPlayerName = () =>
+    firstPlayerName.value === '' ? 'Player 1' : firstPlayerName.value;
+  const getSecondPlayerName = () =>
+    secondPlayerName.value === '' ? 'Player 2' : secondPlayerName.value;
   const getGameMode = () =>
     Array.from(gameModeRadioBtns).find((radioBtn) => radioBtn.checked === true)
       .value;
@@ -102,15 +175,10 @@ const displayController = (() => {
   };
 
   const updateGameboardNames = () => {
-    firstPlayerNameGameboard.textContent =
-      gameOptionsForm.getFirstPlayerName() === ''
-        ? 'Player 1'
-        : gameOptionsForm.getFirstPlayerName();
+    firstPlayerNameGameboard.textContent = gameOptionsForm.getFirstPlayerName();
 
     secondPlayerNameGameboard.textContent =
-      gameOptionsForm.getSecondPlayerName() === ''
-        ? 'Player 2'
-        : gameOptionsForm.getSecondPlayerName();
+      gameOptionsForm.getSecondPlayerName();
   };
 
   const startGame = () => {
@@ -118,6 +186,7 @@ const displayController = (() => {
       hideModals();
       toggleGameboard();
       updateGameboardNames();
+      gameboard.startGameBoard();
     }
   };
 
@@ -133,4 +202,6 @@ const displayController = (() => {
       hideModals();
     }
   });
+
+  return { toggleModal };
 })();

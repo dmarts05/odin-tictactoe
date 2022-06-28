@@ -121,6 +121,20 @@ header h2 {
   align-items: center;
 }
 
+.game-section .gameboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.game-section #player-turn {
+  text-transform: uppercase;
+  font-size: 2rem;
+  letter-spacing: 4px;
+}
+
 .game-section .gameboard {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
@@ -130,6 +144,11 @@ header h2 {
 }
 
 .game-section .gameboard .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  font-weight: 500;
   cursor: pointer;
   border: 5px solid var(--contrast);
   border-radius: 10px;
