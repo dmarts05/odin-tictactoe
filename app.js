@@ -12,6 +12,8 @@ const gameboard = (() => {
   let secondPlayer;
   let firstPlayerTurn = true;
 
+  const getFirstPlayerTurn = () => firstPlayerTurn;
+
   const checkWinPattern = (piece) => {
     const winPatterns = {
       pattern1: [`${piece}`, `${piece}`, `${piece}`, '', '', '', '', '', ''],
@@ -61,12 +63,15 @@ const gameboard = (() => {
     if (cell.textContent === '') {
       cell.textContent = piece;
       gameboardArr[cell.dataset.index] = piece;
-      firstPlayerTurn = !firstPlayerTurn;
       if (checkWinPattern(piece)) {
-        displayController.toggleModal(document.getElementById('end-game'));
+        const winner = firstPlayerTurn
+          ? firstPlayer.getName()
+          : secondPlayer.getName();
+        displayController.showEndGameModal(winner);
       } else if (isTie()) {
-        displayController.toggleModal(document.getElementById('end-game'));
+        displayController.showEndGameModal();
       } else {
+        firstPlayerTurn = !firstPlayerTurn;
         updatePlayerTurn();
       }
     }
@@ -95,7 +100,7 @@ const gameboard = (() => {
     updatePlayerTurn();
   };
 
-  return { firstPlayerTurn, startGameboard, resetGameboard, isTie };
+  return { getFirstPlayerTurn, startGameboard, resetGameboard };
 })();
 
 const gameOptionsForm = (() => {
@@ -169,25 +174,32 @@ const displayController = (() => {
     'player-2-name-gameboard'
   );
 
-  const toggleModal = (modal) => {
-    modal.classList.toggle('show');
-    if (modal.id === 'end-game') {
-      const result = modal.querySelector('h2');
+  const showGameOptionsModal = () => gameOptionsModal.classList.add('show');
 
-      if (!gameboard.isTie()) {
-        result.textContent = gameboard.firstPlayerTurn
-          ? `${gameOptionsForm.getFirstPlayerName()} WINS!`
-          : `${gameOptionsForm.getSecondPlayerName()} WINS!`;
-      } else {
-        result.textContent = "IT'S A TIE";
-      }
+  const showEndGameModal = (player) => {
+    player = player || 'tie';
+    const result = document.querySelector('.end-game-modal h2');
+
+    if (player === 'tie') {
+      result.textContent = "IT'S A TIE";
+    } else {
+      result.textContent = `${player} WINS!`;
     }
+
+    endGameModal.classList.add('show');
   };
 
   const hideModals = () => {
     gameOptionsModal.classList.remove('show');
     endGameModal.classList.remove('show');
   };
+
+  // Hide game options modal by clicking outside of it
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'game-options') {
+      hideModals();
+    }
+  });
 
   const toggleGameboard = () => {
     if (startSection.style.display === 'none') {
@@ -216,7 +228,7 @@ const displayController = (() => {
   };
 
   showGameOptionsBtn.addEventListener('click', () =>
-    toggleModal(gameOptionsModal)
+    showGameOptionsModal(gameOptionsModal)
   );
 
   startGameBtn.addEventListener('click', startGame);
@@ -226,12 +238,5 @@ const displayController = (() => {
     gameboard.resetGameboard();
   });
 
-  // Hide form modal by clicking outside of it
-  document.addEventListener('click', (e) => {
-    if (e.target.id === 'game-options') {
-      hideModals();
-    }
-  });
-
-  return { toggleModal };
+  return { showEndGameModal };
 })();
