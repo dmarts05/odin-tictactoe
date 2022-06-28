@@ -46,10 +46,13 @@ const gameboard = (() => {
     return false;
   };
 
+  const isTie = () =>
+    !Array.from(cells).some((cell) => cell.textContent === '');
+
   const updatePlayerTurn = () =>
     (playerTurn.textContent = firstPlayerTurn
-      ? `It's ${firstPlayer.getName()} turn!`
-      : `It's ${secondPlayer.getName()} turn!`);
+      ? `IT'S ${firstPlayer.getName()} TURN!`
+      : `IT'S ${secondPlayer.getName()} TURN!`);
 
   const playRound = (e) => {
     const piece = firstPlayerTurn ? 'O' : 'X';
@@ -60,6 +63,8 @@ const gameboard = (() => {
       gameboardArr[cell.dataset.index] = piece;
       firstPlayerTurn = !firstPlayerTurn;
       if (checkWinPattern(piece)) {
+        displayController.toggleModal(document.getElementById('end-game'));
+      } else if (isTie()) {
         displayController.toggleModal(document.getElementById('end-game'));
       } else {
         updatePlayerTurn();
@@ -79,6 +84,8 @@ const gameboard = (() => {
 
       cell.addEventListener('click', playRound);
     });
+
+    updatePlayerTurn();
   };
 
   const resetGameboard = () => {
@@ -88,7 +95,7 @@ const gameboard = (() => {
     updatePlayerTurn();
   };
 
-  return { startGameboard, resetGameboard };
+  return { firstPlayerTurn, startGameboard, resetGameboard, isTie };
 })();
 
 const gameOptionsForm = (() => {
@@ -162,7 +169,20 @@ const displayController = (() => {
     'player-2-name-gameboard'
   );
 
-  const toggleModal = (modal) => modal.classList.toggle('show');
+  const toggleModal = (modal) => {
+    modal.classList.toggle('show');
+    if (modal.id === 'end-game') {
+      const result = modal.querySelector('h2');
+
+      if (!gameboard.isTie()) {
+        result.textContent = gameboard.firstPlayerTurn
+          ? `${gameOptionsForm.getFirstPlayerName()} WINS!`
+          : `${gameOptionsForm.getSecondPlayerName()} WINS!`;
+      } else {
+        result.textContent = "IT'S A TIE";
+      }
+    }
+  };
 
   const hideModals = () => {
     gameOptionsModal.classList.remove('show');
