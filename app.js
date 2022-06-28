@@ -1,16 +1,13 @@
 const Player = (name) => {
-  let score = 0;
-  const getScore = () => score;
-  const setScore = (newScore) => (score = newScore);
   const getName = () => name;
-  return { getName, getScore, setScore };
+  return { getName };
 };
 
 const gameboard = (() => {
   const cells = document.querySelectorAll('.cell');
   const playerTurn = document.getElementById('player-turn');
 
-  const gameboardArr = ['', '', '', '', '', '', '', '', ''];
+  let gameboardArr = ['', '', '', '', '', '', '', '', ''];
   let firstPlayer;
   let secondPlayer;
   let firstPlayerTurn = true;
@@ -70,7 +67,7 @@ const gameboard = (() => {
     }
   };
 
-  const startGameBoard = () => {
+  const startGameboard = () => {
     firstPlayer = Player(gameOptionsForm.getFirstPlayerName());
     secondPlayer = Player(gameOptionsForm.getSecondPlayerName());
 
@@ -84,7 +81,14 @@ const gameboard = (() => {
     });
   };
 
-  return { gameboardArr, startGameBoard };
+  const resetGameboard = () => {
+    gameboardArr = ['', '', '', '', '', '', '', '', ''];
+    cells.forEach((cell) => (cell.textContent = ''));
+    firstPlayerTurn = true;
+    updatePlayerTurn();
+  };
+
+  return { startGameboard, resetGameboard };
 })();
 
 const gameOptionsForm = (() => {
@@ -146,6 +150,7 @@ const displayController = (() => {
 
   const showGameOptionsBtn = document.getElementById('start-game');
   const startGameBtn = document.getElementById('go-btn');
+  const resetBtn = document.getElementById('reset-btn');
 
   const gameOptionsModal = document.getElementById('game-options');
   const endGameModal = document.getElementById('end-game');
@@ -186,7 +191,7 @@ const displayController = (() => {
       hideModals();
       toggleGameboard();
       updateGameboardNames();
-      gameboard.startGameBoard();
+      gameboard.startGameboard();
     }
   };
 
@@ -195,6 +200,11 @@ const displayController = (() => {
   );
 
   startGameBtn.addEventListener('click', startGame);
+
+  resetBtn.addEventListener('click', () => {
+    hideModals();
+    gameboard.resetGameboard();
+  });
 
   // Hide modals by clicking outside of them
   document.addEventListener('click', (e) => {
