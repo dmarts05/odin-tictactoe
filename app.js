@@ -206,9 +206,9 @@ const displayController = (() => {
     gameboard.resetGameboard();
   });
 
-  // Hide modals by clicking outside of them
+  // Hide form modal by clicking outside of it
   document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal-wrapper')) {
+    if (e.target.id === 'game-options') {
       hideModals();
     }
   });
