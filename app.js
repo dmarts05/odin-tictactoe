@@ -3,6 +3,34 @@ const Player = (name) => {
   return { getName };
 };
 
+const ai = (() => {
+  const cells = Array.from(document.querySelectorAll('.cell'));
+  let aiDifficulty = 'easy';
+
+  const setDifficulty = (difficulty) => (aiDifficulty = difficulty);
+  const getCell = () => {
+    let aiCell = null;
+    switch (aiDifficulty) {
+      case 'easy':
+        for (let i = 0; aiCell === null && i < cells.length; i++) {
+          if (cells[i].textContent === '') {
+            aiCell = cells[i];
+          }
+        }
+
+        break;
+      case 'normal':
+        break;
+      case 'hard':
+        break;
+    }
+
+    return aiCell;
+  };
+
+  return { setDifficulty, getCell };
+})();
+
 const gameboard = (() => {
   const cells = document.querySelectorAll('.cell');
   const playerTurn = document.getElementById('player-turn');
@@ -11,6 +39,7 @@ const gameboard = (() => {
   let firstPlayer;
   let secondPlayer;
   let firstPlayerTurn = true;
+  let cellsEnabled = true;
 
   const checkWinPattern = (piece) => {
     const winPatterns = {
@@ -54,28 +83,91 @@ const gameboard = (() => {
       ? `IT'S ${firstPlayer.getName()} TURN!`
       : `IT'S ${secondPlayer.getName()} TURN!`);
 
-  const playRound = (e) => {
-    const piece = firstPlayerTurn ? 'O' : 'X';
-    const cell = e.target;
-
-    if (cell.textContent === '') {
-      cell.textContent = piece;
-      gameboardArr[cell.dataset.index] = piece;
-      if (checkWinPattern(piece)) {
-        const winner = firstPlayerTurn
-          ? firstPlayer.getName()
-          : secondPlayer.getName();
-        displayController.showEndGameModal(winner);
-      } else if (isTie()) {
-        displayController.showEndGameModal('tie');
+  const toggleCellsEventListener = () => {
+    let cellIndex = 0;
+    cells.forEach((cell) => {
+      if (cellsEnabled) {
+        cell.removeEventListener('click', playRound);
       } else {
-        firstPlayerTurn = !firstPlayerTurn;
-        updatePlayerTurn();
+        cell.addEventListener('click', playRound);
       }
-    }
+
+      cellIndex++;
+    });
+
+    cellsEnabled = !cellsEnabled;
+  };
+
+  const playRound = (e) => {
+    let piece = firstPlayerTurn ? 'O' : 'X';
+    let cell = e.target;
+    const isCellEmpty = cell.textContent === '';
+
+    cell.classList.toggle('selected');
+    toggleCellsEventListener();
+    setTimeout(() => {
+      if (isCellEmpty) {
+        cell.textContent = piece;
+        gameboardArr[cell.dataset.index] = piece;
+        if (checkWinPattern(piece)) {
+          const winner = firstPlayerTurn
+            ? firstPlayer.getName()
+            : secondPlayer.getName();
+          displayController.showEndGameModal(winner);
+        } else if (isTie()) {
+          displayController.showEndGameModal('tie');
+        } else {
+          firstPlayerTurn = !firstPlayerTurn;
+          updatePlayerTurn();
+        }
+      }
+
+      cell.classList.toggle('selected');
+
+      // AI plays next round if it is the selected game mode
+      if (gameOptionsForm.getGameMode() === 'ai' && isCellEmpty) {
+        piece = firstPlayerTurn ? 'O' : 'X';
+        cell = ai.getCell();
+
+        setTimeout(() => {
+          if (cell === null) {
+            displayController.showEndGameModal('tie');
+          } else {
+            cell.classList.toggle('selected');
+
+            cell.textContent = piece;
+            gameboardArr[cell.dataset.index] = piece;
+
+            if (checkWinPattern(piece)) {
+              const winner = firstPlayerTurn
+                ? firstPlayer.getName()
+                : secondPlayer.getName();
+              displayController.showEndGameModal(winner);
+            } else if (isTie()) {
+              displayController.showEndGameModal('tie');
+            } else {
+              firstPlayerTurn = !firstPlayerTurn;
+              updatePlayerTurn();
+            }
+          }
+
+          toggleCellsEventListener();
+        }, 250);
+
+        if (cell !== null) {
+          cell.classList.toggle('selected');
+        }
+      } else {
+        toggleCellsEventListener();
+      }
+    }, 250);
   };
 
   const startGameboard = () => {
+    if (gameOptionsForm.getGameMode() === 'ai') {
+      ai.setDifficulty(gameOptionsForm.getDifficulty());
+    }
+
     firstPlayer = Player(gameOptionsForm.getFirstPlayerName());
     secondPlayer = Player(gameOptionsForm.getSecondPlayerName());
 
@@ -117,17 +209,25 @@ const gameOptionsForm = (() => {
   const difficultyFieldset = document.getElementById('difficulty');
 
   // Disables form fields depending on selected game mode
+  const changeDisabledFields = (radio) => {
+    if (radio === 'pvp') {
+      difficultyFieldset.disabled = true;
+      secondPlayerName.value = '';
+      secondPlayerName.disabled = false;
+    } else {
+      difficultyFieldset.disabled = false;
+      secondPlayerName.value = 'AI';
+      secondPlayerName.disabled = true;
+    }
+  };
+
   gameModeRadioBtns.forEach((radio) => {
     radio.addEventListener('change', (e) => {
-      if (e.target.value === 'pvp') {
-        difficultyFieldset.disabled = true;
-        secondPlayerName.value = '';
-        secondPlayerName.disabled = false;
-      } else {
-        difficultyFieldset.disabled = false;
-        secondPlayerName.value = 'AI';
-        secondPlayerName.disabled = true;
-      }
+      changeDisabledFields(e.target.value);
+    });
+
+    radio.addEventListener('load', (e) => {
+      changeDisabledFields(e.target.value);
     });
   });
 

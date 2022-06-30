@@ -41,7 +41,8 @@ a {
 h1,
 h2,
 p,
-legend {
+legend,
+.cell {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -151,11 +152,15 @@ header h2 {
   cursor: pointer;
   border: 5px solid var(--contrast);
   border-radius: 10px;
-  transition: transform 0.25s;
+  transition: transform 0.25s, background-color 0.25s;
 }
 
 .game-section .gameboard .cell:hover {
   transform: scale(1.05);
+}
+
+.cell.selected {
+  background-color: var(--contrast);
 }
 
 .game-section .player-wrapper {
