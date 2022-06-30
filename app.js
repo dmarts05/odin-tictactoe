@@ -20,6 +20,9 @@ const ai = (() => {
 
         break;
       case 'normal':
+        do {
+          aiCell = cells[Math.floor(Math.random() * 9)];
+        } while (aiCell.textContent !== '');
         break;
       case 'hard':
         break;
