@@ -14,7 +14,7 @@ const theme = (() => {
 
     document.documentElement.classList.toggle('dark');
     document.documentElement.classList.toggle('light');
-    images.forEach(img => {
+    images.forEach((img) => {
       img.classList.toggle('dark');
       img.classList.toggle('light');
     });
@@ -27,13 +27,13 @@ const theme = (() => {
   ) {
     themeBtn.classList.add('fa-sun');
     document.documentElement.classList.add('dark');
-    images.forEach(img => {
+    images.forEach((img) => {
       img.classList.add('dark');
     });
   } else {
     themeBtn.classList.add('fa-moon');
     document.documentElement.classList.add('light');
-    images.forEach(img => {
+    images.forEach((img) => {
       img.classList.add('light');
     });
   }
@@ -63,11 +63,10 @@ const ai = (() => {
 
         break;
       case 'normal':
+      case 'hard':
         do {
           aiCell = cells[Math.floor(Math.random() * 9)];
         } while (aiCell.textContent !== '');
-        break;
-      case 'hard':
         break;
     }
 
