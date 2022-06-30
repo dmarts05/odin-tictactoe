@@ -101,6 +101,7 @@ const gameboard = (() => {
   const playRound = (e) => {
     let piece = firstPlayerTurn ? 'O' : 'X';
     let cell = e.target;
+    let aiEnabled = gameOptionsForm.getGameMode() === 'ai';
     const isCellEmpty = cell.textContent === '';
 
     cell.classList.toggle('selected');
@@ -114,8 +115,10 @@ const gameboard = (() => {
             ? firstPlayer.getName()
             : secondPlayer.getName();
           displayController.showEndGameModal(winner);
+          aiEnabled = false;
         } else if (isTie()) {
           displayController.showEndGameModal('tie');
+          aiEnabled = false;
         } else {
           firstPlayerTurn = !firstPlayerTurn;
           updatePlayerTurn();
@@ -125,12 +128,12 @@ const gameboard = (() => {
       cell.classList.toggle('selected');
 
       // AI plays next round if it is the selected game mode
-      if (gameOptionsForm.getGameMode() === 'ai' && isCellEmpty) {
-        piece = firstPlayerTurn ? 'O' : 'X';
+      if (aiEnabled && isCellEmpty) {
+        piece = 'X';
         cell = ai.getCell();
 
         setTimeout(() => {
-          if (cell === null) {
+          if (cell === null && isTie()) {
             displayController.showEndGameModal('tie');
           } else {
             cell.classList.toggle('selected');
