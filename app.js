@@ -1,4 +1,5 @@
 const theme = (() => {
+  const themeBtnWrapper = document.querySelector('.theme-btn-wrapper');
   const themeBtn = document.querySelector('.theme-btn');
   const images = document.querySelectorAll('img');
 
@@ -19,7 +20,7 @@ const theme = (() => {
     });
   };
 
-  // Sets currrent device theme
+  // Set currrent device theme
   if (
     window.matchMedia &&
     window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -37,7 +38,7 @@ const theme = (() => {
     });
   }
 
-  themeBtn.addEventListener('click', toggleTheme);
+  themeBtnWrapper.addEventListener('click', toggleTheme);
 })();
 
 const Player = (name) => {
