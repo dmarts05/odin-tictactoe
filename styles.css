@@ -65,6 +65,10 @@ main {
   height: 100%;
 }
 
+::placeholder {
+  color: var(--contrast);
+}
+
 /* Header */
 
 header {
@@ -289,6 +293,7 @@ header h2 {
   border-radius: 10px;
   outline: none;
   transition: color 0.25s, background-color 0.25s;
+  background-color: var(--base-color);
 }
 
 .game-options-modal input[type='text']:focus {
@@ -316,8 +321,8 @@ header h2 {
 }
 
 .game-options-modal input[type='radio'] {
-  accent-color: var(--contrast);
-  transform: scale(1.2);
+  accent-color: #121212;
+  transform: scale(1.1);
 }
 
 :disabled,
