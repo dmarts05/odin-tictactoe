@@ -84,15 +84,12 @@ const gameboard = (() => {
       : `IT'S ${secondPlayer.getName()} TURN!`);
 
   const toggleCellsEventListener = () => {
-    let cellIndex = 0;
     cells.forEach((cell) => {
       if (cellsEnabled) {
         cell.removeEventListener('click', playRound);
       } else {
         cell.addEventListener('click', playRound);
       }
-
-      cellIndex++;
     });
 
     cellsEnabled = !cellsEnabled;
@@ -104,7 +101,7 @@ const gameboard = (() => {
     let aiEnabled = gameOptionsForm.getGameMode() === 'ai';
     const isCellEmpty = cell.textContent === '';
 
-    cell.classList.toggle('selected');
+    cell.classList.toggle('fade');
     toggleCellsEventListener();
     setTimeout(() => {
       if (isCellEmpty) {
@@ -121,11 +118,15 @@ const gameboard = (() => {
           aiEnabled = false;
         } else {
           firstPlayerTurn = !firstPlayerTurn;
+          playerTurn.classList.toggle('fade');
           updatePlayerTurn();
+          setTimeout(() => {
+            playerTurn.classList.toggle('fade');
+          }, 250);
         }
       }
 
-      cell.classList.toggle('selected');
+      cell.classList.toggle('fade');
 
       // AI plays next round if it is the selected game mode
       if (aiEnabled && isCellEmpty) {
@@ -136,7 +137,7 @@ const gameboard = (() => {
           if (cell === null && isTie()) {
             displayController.showEndGameModal('tie');
           } else {
-            cell.classList.toggle('selected');
+            cell.classList.toggle('fade');
 
             cell.textContent = piece;
             gameboardArr[cell.dataset.index] = piece;
@@ -158,7 +159,7 @@ const gameboard = (() => {
         }, 250);
 
         if (cell !== null) {
-          cell.classList.toggle('selected');
+          cell.classList.toggle('fade');
         }
       } else {
         toggleCellsEventListener();
