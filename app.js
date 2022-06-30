@@ -1,3 +1,45 @@
+const theme = (() => {
+  const themeBtn = document.querySelector('.theme-btn');
+  const images = document.querySelectorAll('img');
+
+  const toggleTheme = () => {
+    if (themeBtn.classList.contains('fa-sun')) {
+      themeBtn.classList.remove('fa-sun');
+      themeBtn.classList.add('fa-moon');
+    } else {
+      themeBtn.classList.remove('fa-moon');
+      themeBtn.classList.add('fa-sun');
+    }
+
+    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('light');
+    images.forEach(img => {
+      img.classList.toggle('dark');
+      img.classList.toggle('light');
+    });
+  };
+
+  // Sets currrent device theme
+  if (
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  ) {
+    themeBtn.classList.add('fa-sun');
+    document.documentElement.classList.add('dark');
+    images.forEach(img => {
+      img.classList.add('dark');
+    });
+  } else {
+    themeBtn.classList.add('fa-moon');
+    document.documentElement.classList.add('light');
+    images.forEach(img => {
+      img.classList.add('light');
+    });
+  }
+
+  themeBtn.addEventListener('click', toggleTheme);
+})();
+
 const Player = (name) => {
   const getName = () => name;
   return { getName };
