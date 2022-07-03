@@ -120,8 +120,16 @@ const gameboard = (() => {
     return false;
   };
 
-  const isTie = () =>
-    !Array.from(cells).some((cell) => cell.textContent === '');
+  const isTie = () => {
+    let pieces = 0;
+    cells.forEach((cell) => {
+      if (cell.textContent !== '') {
+        pieces++;
+      }
+    });
+
+    return pieces >= 6;
+  };
 
   const updatePlayerTurn = () =>
     (playerTurn.textContent = firstPlayerTurn
